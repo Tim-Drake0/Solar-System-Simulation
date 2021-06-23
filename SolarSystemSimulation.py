@@ -21,10 +21,9 @@ class Planet:
         self.surface = py.display.set_mode(simulation.screenSize, RESIZABLE, 32)
         self.angle = angle
         self.speed = speed / 100
-        self.next_tick = nextTick
-        self.year = 0
+        self.nextTick = nextTick
         
-    def move_coords(self):
+    def move(self):
         theta = math.radians(self.angle)
         return simulation.screenCenter[0] + self.distance * math.cos(theta), simulation.screenCenter[1] + self.distance * math.sin(theta)
 
@@ -32,7 +31,6 @@ class Simulation:
     screenSize = (900, 900)
     screenCenter = (screenSize[0] // 2, screenSize[1] // 2)
     screen = py.display.set_mode(screenSize, RESIZABLE, 32)
-    simulationSpeed = 1000
 
     def startSimulation(self):
 
@@ -66,10 +64,10 @@ class Simulation:
 
             ticks = py.time.get_ticks() 
             for planet in self.planetList:
-                if ticks > planet.next_tick:
-                    planet.next_tick += planet.speed
+                if ticks > planet.nextTick:
+                    planet.nextTick += planet.speed
                     planet.angle += 1
-                    planet.center = planet.move_coords()
+                    planet.center = planet.move()
 
             self.drawOrbits()
             self.drawPlanets()
